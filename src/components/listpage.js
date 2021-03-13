@@ -8,12 +8,12 @@ class listpage extends Component {
         super(props)
         this.state = {
              items : [
-                 "item1",
-                 "item2",
-                 "item3",
-                 "item4",
-                 "item5",
-                 "item6"
+                 "Virat Kohli",
+                 "Rohit Sharma",
+                 "MS Dhoni",
+                 "Ishant Sharma",
+                 "MD. Shami",
+                 "Hardik Pandya"
              ],
              cards : [],
              backup_list : [],
@@ -44,12 +44,14 @@ class listpage extends Component {
             },()=>{
                 let temp_list = []
                 temp_list = this.state.backup_list.filter((e)=>{
-                    return e.props.item.includes( event.target.value);
+                    return e.props.item.toUpperCase().includes(event.target.value.toUpperCase());
                 })
 
+                    if(temp_list.length > -1){
                     this.setState({
                         cards : temp_list.slice()
                     })
+                }
             })
     }
     render() {
@@ -60,7 +62,10 @@ class listpage extends Component {
                 onChange={this.searchtextChangeHandler} 
                 value={this.state.search_text}>
                 </input>
-                    {this.state.cards}
+                {this.state.cards.length === 0 
+                ? <p>No Matching Result found</p> 
+                :this.state.cards}
+                    
             </div>
         )
     }
