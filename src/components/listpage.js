@@ -6,17 +6,17 @@ class listpage extends Component {
 
     constructor(props) {
         super(props)
-    
         this.state = {
              items : [
-                 "niraj",
-                 "rahul",
-                 "pandey",
-                 "engineer",
-                 "react",
-                 "angular"
+                 "item1",
+                 "item2",
+                 "item3",
+                 "item4",
+                 "item5",
+                 "item6"
              ],
              cards : [],
+             backup_list : [],
              search_text : ''
         }
     }
@@ -32,15 +32,24 @@ class listpage extends Component {
                 )
         });
         this.setState({
-            cards : temp_items.slice()
+            cards : temp_items.slice(),
+            backup_list : temp_items.slice()
         })
+        
     }
 
     searchtextChangeHandler = (event) =>{
             this.setState({
                 search_text : event.target.value
             },()=>{
-                
+                let temp_list = []
+                temp_list = this.state.backup_list.filter((e)=>{
+                    return e.props.item.includes( event.target.value);
+                })
+
+                    this.setState({
+                        cards : temp_list.slice()
+                    })
             })
     }
     render() {
