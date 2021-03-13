@@ -17,7 +17,9 @@ class listpage extends Component {
              ],
              cards : [],
              backup_list : [],
-             search_text : ''
+             search_text : '',
+             isSorted : false,
+             sortedText : 'Sort'
         }
     }
     
@@ -56,25 +58,38 @@ class listpage extends Component {
     }
 
     sortList = () =>{
-        let temp_list = this.state.cards.slice()
-        temp_list.sort((a,b)=>{
-            let fa = a.props.item.toLowerCase();
-            let fb = b.props.item.toLowerCase();
-
-            if (fa < fb) 
-            {
-                 return -1;
-            }
-            if (fa > fb)
-            {
-                return 1;
-            }
-            return 0;
-        })
-
-        this.setState({
-            cards : temp_list.slice()
-        })
+        
+        if(this.state.isSorted === false){
+            let temp_list = this.state.cards.slice()
+            temp_list.sort((a,b)=>{
+                let fa = a.props.item.toLowerCase();
+                let fb = b.props.item.toLowerCase();
+    
+                if (fa < fb) 
+                {
+                     return -1;
+                }
+                if (fa > fb)
+                {
+                    return 1;
+                }
+                return 0;
+            })
+    
+            this.setState({
+                cards : temp_list.slice(),
+                isSorted : true,
+                sortedText : 'Un-Sort'
+            })
+        }
+        else{
+            this.setState({
+                cards : this.state.backup_list.slice(),
+                isSorted : false,
+                sortedText : 'Sort'
+            })
+        }
+      
     }
     render() {
         return (
@@ -84,7 +99,7 @@ class listpage extends Component {
                 onChange={this.searchtextChangeHandler} 
                 value={this.state.search_text}>
                 </input>
-                <button onClick={this.sortList}>Sort</button>
+                <button onClick={this.sortList}>{this.state.sortedText}</button>
                 {this.state.cards.length === 0 
                 ? <p>No Matching Result found</p> 
                 : this.state.cards}
